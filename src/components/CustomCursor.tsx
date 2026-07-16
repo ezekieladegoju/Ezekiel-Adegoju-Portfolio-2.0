@@ -1,14 +1,25 @@
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "motion/react";
 
+/**
+ * CustomCursor Component
+ * Renders a highly responsive, custom-styled pointer overlay on devices with precise inputs (desktops).
+ * Combines a fast-responding central dot with a spring-lagged outer tracking circle,
+ * which dynamically scales and highlights when hovering over interactive DOM elements.
+ */
 export default function CustomCursor() {
+  // Flag tracking cursor visibility state
   const [isVisible, setIsVisible] = useState(false);
+  // Flag set to true when the cursor is positioned over an actionable element (links, buttons, etc.)
   const [isHovered, setIsHovered] = useState(false);
+  // Flag indicating if device is coarse-pointer (mobile touch screen), where custom cursor is disabled
   const [isMobile, setIsMobile] = useState(true);
 
+  // Framer Motion values to map immediate mouse coordinates without triggering react re-renders
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
+  // Spring physical configuration to govern lag/smoothing of the outer cursor ring
   const springConfig = { damping: 30, stiffness: 300, mass: 0.6 };
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
@@ -18,16 +29,19 @@ export default function CustomCursor() {
     const mediaQuery = window.matchMedia("(pointer: coarse)");
     setIsMobile(mediaQuery.matches);
     
+    // Deactivate custom cursor on mobile touch interfaces to avoid input confusion
     if (mediaQuery.matches) return;
 
     setIsVisible(true);
     document.body.classList.add("custom-cursor-active");
 
+    // Tracks and shifts cursor offset coordinates on mousemove
     const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX - 12);
       cursorY.set(e.clientY - 12);
     };
 
+    // Bubble up event checking to see if cursor is hovering over an interactive target
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
       if (!target) return;
@@ -47,6 +61,7 @@ export default function CustomCursor() {
     window.addEventListener("mousemove", moveCursor);
     window.addEventListener("mouseover", handleMouseOver);
 
+    // Cleanup listeners and remove auxiliary layout class name on unmount
     return () => {
       window.removeEventListener("mousemove", moveCursor);
       window.removeEventListener("mouseover", handleMouseOver);

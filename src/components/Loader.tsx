@@ -1,31 +1,43 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
+/**
+ * Properties expected by the Loader component.
+ */
 interface LoaderProps {
+  /** Callback triggered immediately after the loading animation reaches 100% and finishes exiting */
   onComplete: () => void;
 }
 
+/**
+ * Loader Component
+ * Renders an immersive, full-screen preloading cover featuring the developer name and professional subtitle.
+ * Uses a precise setInterval timer to step loading progress to 100% and exits gracefully with a smooth overlay lift.
+ */
 export default function Loader({ onComplete }: LoaderProps) {
+  // Numeric progress counter state (0 to 100)
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const duration = 1200; // 1.2 seconds loading sequence
-    const intervalTime = 30;
-    const step = 100 / (duration / intervalTime);
+    const duration = 1200; // Total 1.2 seconds loading sequence duration
+    const intervalTime = 30; // Update step interval in milliseconds
+    const step = 100 / (duration / intervalTime); // Standard percentage increment per interval
 
     const timer = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(timer);
+          // Wait a small physical delay before raising complete flag to ensure visual completion
           setTimeout(() => {
             onComplete();
-          }, 200); // minor delay for fluid exit
+          }, 200);
           return 100;
         }
         return prev + step;
       });
     }, intervalTime);
 
+    // Clean up timer handle on component teardown
     return () => clearInterval(timer);
   }, [onComplete]);
 

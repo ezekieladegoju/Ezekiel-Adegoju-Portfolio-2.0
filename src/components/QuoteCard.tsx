@@ -1,6 +1,11 @@
 import { motion } from "motion/react";
 import { Quote } from "lucide-react";
 
+/**
+ * QuoteCard Component
+ * Displays an editorial quote box with a dynamic, animating gradient background.
+ * Embeds styling to simulate the signature branding, pairing elegant serif fonts, cursive handwriting, and responsive vectors.
+ */
 export default function QuoteCard() {
   return (
     <div id="quote-card-container" className="flex flex-col justify-between h-full bg-transparent text-left">

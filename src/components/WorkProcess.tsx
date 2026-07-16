@@ -3,6 +3,9 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { Search, Lightbulb, Pen, Code, Send } from "lucide-react";
 import { WorkProcessStep } from "../types";
 
+/**
+ * Define chronological steps of the engineering/creative workflow.
+ */
 const PROCESS_STEPS: WorkProcessStep[] = [
   {
     number: "01",
@@ -36,6 +39,12 @@ const PROCESS_STEPS: WorkProcessStep[] = [
   }
 ];
 
+/**
+ * Dynamically resolves and styles a Lucide icon based on name matching.
+ * 
+ * @param name Key representing the desired icon
+ * @param active Boolean defining if the icon should appear with full interactive highlight
+ */
 const renderIcon = (name: string, active: boolean) => {
   const baseClasses = `w-4 h-4 transition-all duration-300 ${active ? "text-white scale-110" : "text-white/40"}`;
   switch (name) {
@@ -54,16 +63,21 @@ const renderIcon = (name: string, active: boolean) => {
   }
 };
 
+/**
+ * WorkProcess Component
+ * Displays a vertical interactive workflow checklist.
+ * Tracks screen scrolling to fill the background timeline rail with brand colors dynamically.
+ */
 export default function WorkProcess() {
   const containerRef = useRef<HTMLDivElement>(null);
   
-  // Track scroll inside the work process container to dynamically animate the timeline line
+  // Track scroll position of containerRef relative to viewport center to drive vertical progress line
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start center", "end center"]
   });
 
-  // Scale the height of the active filling timeline line
+  // Maps scroll progress decimal (0-1) to CSS height percentage ("0%" to "100%")
   const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (

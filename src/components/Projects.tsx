@@ -3,6 +3,10 @@ import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight, X, ExternalLink, Calendar, User, Briefcase, Tag } from "lucide-react";
 import { Project } from "../types";
 
+/**
+ * Static registry of showcase projects designed and built by Ezekiel Adegoju.
+ * Used for dynamic card rendering and in-depth detail modal retrieval.
+ */
 const PROJECTS_DATA: Project[] = [
   {
     id: "hscgroup",
@@ -45,7 +49,13 @@ const PROJECTS_DATA: Project[] = [
   }
 ];
 
+/**
+ * Projects Section Component
+ * Displays a grid of project cards with hover-triggered visual micro-interactions.
+ * Clicking a card opens a modal displaying comprehensive details (Client, Date, Services, etc.) using Framer Motion.
+ */
 export default function Projects() {
+  // Track currently inspected project for full-screen detail modal
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   return (

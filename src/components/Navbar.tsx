@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 
+/**
+ * Navbar Component
+ * Renders the primary website header containing the developer branding and the availability status badge.
+ * Subscribes to window scroll events to transition background density and height dynamically, enhancing readability.
+ */
 export default function Navbar() {
+  // Boolean state tracking whether user has scrolled past a 50px threshold
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
+    // Dynamic scroll tracking function to toggle layout styling
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };

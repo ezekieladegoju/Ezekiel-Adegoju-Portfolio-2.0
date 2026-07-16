@@ -9,11 +9,19 @@ import EducationSkills from "./components/EducationSkills";
 import WorkProcess from "./components/WorkProcess";
 import QuoteCard from "./components/QuoteCard";
 import ContactSection from "./components/ContactSection";
+import Helmet from "./components/Helmet";
 
+/**
+ * App Root Component
+ * Serves as the primary entry point and orchestrator for the portfolio website.
+ * Manages the cinematic initialization loader, locks/unlocks page scrolling during preloads,
+ * and mounts core responsive layouts (Hero, Projects, Skills, Process, Quote, and Contact).
+ */
 export default function App() {
+  // Boolean state monitoring the preloading phase
   const [isLoading, setIsLoading] = useState(true);
 
-  // Re-enable page scrolling when loader exits
+  // Lock or release the body scrollbar dynamically depending on loader status
   useEffect(() => {
     if (isLoading) {
       document.body.style.overflow = "hidden";
@@ -27,6 +35,9 @@ export default function App() {
 
   return (
     <>
+      {/* Native Head Injection Component managing SEO & Social Graph properties */}
+      <Helmet />
+
       {/* 1. Cinematic Loading Screen */}
       <AnimatePresence mode="wait">
         {isLoading && <Loader onComplete={() => setIsLoading(false)} />}

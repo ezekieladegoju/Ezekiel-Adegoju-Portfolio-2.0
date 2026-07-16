@@ -3,6 +3,14 @@ import { motion, useScroll, useTransform, useSpring } from "motion/react";
 import { Globe } from "lucide-react";
 
 // Hook to animate numbers counting up
+/**
+ * Custom React hook that animates a numerical value counting up from zero to a target value.
+ * Utilizes requestAnimationFrame to ensure high-performance, stutter-free animation.
+ * 
+ * @param endVal The target value to count up to.
+ * @param durationMs Duration of the counting animation in milliseconds.
+ * @param trigger Boolean control to initiate the counting animation once true.
+ */
 function useCountUp(endVal: number, durationMs = 1500, trigger = false) {
   const [count, setCount] = useState(0);
 
@@ -23,22 +31,28 @@ function useCountUp(endVal: number, durationMs = 1500, trigger = false) {
   return count;
 }
 
+/**
+ * Hero Section Component
+ * Serves as the primary viewport presentation for Ezekiel Adegoju.
+ * Implements mouse-tracking cursor-interactive layout parallax, scroll parallax, and counting stats.
+ */
 export default function Hero() {
   const heroRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   
-  // Mouse position tracking for beautiful subtle interactive parallax
+  // Spring-interpolated physics values for the interactive mouse-following offset
   const mouseX = useSpring(0, { stiffness: 50, damping: 20 });
   const mouseY = useSpring(0, { stiffness: 50, damping: 20 });
 
-  // Scroll tracking for background parallax
+  // Native scrolling position tracking bound to vertical movement for background parallax
   const { scrollY } = useScroll();
   const bgParallaxY = useTransform(scrollY, [0, 800], [0, 150]);
 
   useEffect(() => {
-    // Trigger entrance animations after mount
+    // Flag set to true upon browser mount to unlock entrance triggers
     setIsLoaded(true);
 
+    // Dynamic mouse tracker mapping pixel inputs to normalized vector space
     const handleMouseMove = (e: MouseEvent) => {
       if (!heroRef.current) return;
       const { clientWidth, clientHeight } = heroRef.current;
@@ -46,7 +60,7 @@ export default function Hero() {
       const x = (e.clientX / window.innerWidth) - 0.5;
       const y = (e.clientY / window.innerHeight) - 0.5;
       
-      mouseX.set(x * 15); // max 15px shift
+      mouseX.set(x * 15); // Maximum 15px spring shift bounds
       mouseY.set(y * 15);
     };
 
@@ -54,7 +68,7 @@ export default function Hero() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [mouseX, mouseY]);
 
-  // Statistics counters
+  // Statistics counters animated dynamically post-mount
   const triggerStats = isLoaded;
   const expCount = useCountUp(3, 1500, triggerStats);
   const projectsCount = useCountUp(40, 1500, triggerStats);

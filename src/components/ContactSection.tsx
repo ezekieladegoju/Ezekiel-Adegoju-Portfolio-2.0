@@ -6,10 +6,16 @@ type MockScreen = "homepage" | "projects" | "about" | "contact";
 
 const SCREEN_ORDER: MockScreen[] = ["homepage", "projects", "about", "contact"];
 
+/**
+ * ContactSection Component
+ * Provides direct user avenues of communication (Email, Website, Phone, Location) styled with card highlights.
+ * Contains a highly aesthetic virtual laptop mockup running an automated preview carousel that mimics real app states.
+ */
 export default function ContactSection() {
+  // Drives active tab layout inside the virtual viewport frame
   const [activeScreen, setActiveScreen] = useState<MockScreen>("homepage");
 
-  // Cycle mock laptop screen every 6 seconds
+  // Cycle mock laptop screen every 6 seconds to show dynamic visual context
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveScreen((prev) => {

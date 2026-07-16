@@ -2,6 +2,9 @@ import { motion } from "motion/react";
 import { GraduationCap } from "lucide-react";
 import { EducationItem } from "../types";
 
+/**
+ * Static repository of Ezekiel Adegoju's academic degrees and educational certifications.
+ */
 const EDUCATION_DATA: EducationItem[] = [
   {
     degree: "B.Sc. Computer Science",
@@ -15,6 +18,9 @@ const EDUCATION_DATA: EducationItem[] = [
   }
 ];
 
+/**
+ * Technical skillset catalog of industry standard frameworks, languages, and tools.
+ */
 const SKILLS_DATA = [
   "REACT",
   "NEXT.JS",
@@ -29,6 +35,11 @@ const SKILLS_DATA = [
   "GITHUB"
 ];
 
+/**
+ * EducationSkills Component
+ * Renders a side-by-side or stacked visual checklist of educational credentials
+ * alongside responsive, interactive capsule tags representing core software engineering competencies.
+ */
 export default function EducationSkills() {
   return (
     <div id="education-skills-container" className="flex flex-col justify-start h-full text-left bg-transparent">
