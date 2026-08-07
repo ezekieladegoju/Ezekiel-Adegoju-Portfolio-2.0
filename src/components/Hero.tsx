@@ -55,7 +55,6 @@ export default function Hero() {
     // Dynamic mouse tracker mapping pixel inputs to normalized vector space
     const handleMouseMove = (e: MouseEvent) => {
       if (!heroRef.current) return;
-      const { clientWidth, clientHeight } = heroRef.current;
       // Coordinates normalized between -0.5 and 0.5
       const x = (e.clientX / window.innerWidth) - 0.5;
       const y = (e.clientY / window.innerHeight) - 0.5;
@@ -78,10 +77,14 @@ export default function Hero() {
     <section
       ref={heroRef}
       id="hero-section"
-      className="relative w-full min-h-screen bg-[#070708] flex flex-col justify-between overflow-hidden px-6 md:px-12 pt-28 pb-12 select-none"
+      className="relative w-full min-h-screen bg-[#070708] flex flex-col justify-between overflow-hidden px-4 sm:px-6 md:px-12 pt-20 sm:pt-24 md:pt-28 pb-10 md:pb-12 select-none"
     >
-      {/* 1. Huge Background PORTFOLIO Parallax Text */}
-      <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none">
+      {/* =========================================================================
+          DESKTOP-ONLY OVERLAY LAYOUT (>= 768px / md:)
+         ========================================================================= */}
+
+      {/* 1. Desktop Background PORTFOLIO Parallax Text */}
+      <div className="hidden md:flex absolute inset-0 items-center justify-center z-0 pointer-events-none">
         <motion.div
           style={{ 
             y: bgParallaxY,
@@ -96,8 +99,8 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* 2. Floating Centered Portrait with Mouse Shift */}
-      <div className="absolute inset-x-0 bottom-0 top-0 flex items-end justify-center z-10 pointer-events-none">
+      {/* 2. Desktop Floating Centered Portrait with Mouse Shift */}
+      <div className="hidden md:flex absolute inset-x-0 bottom-0 top-0 items-end justify-center z-10 pointer-events-none">
         <motion.div
           style={{ 
             x: mouseX, 
@@ -116,7 +119,6 @@ export default function Hero() {
           }}
           className="relative h-[65vh] sm:h-[75vh] md:h-[82vh] max-h-[850px] w-full max-w-[550px] flex items-end justify-center"
         >
-          {/* Main Portrait */}
           <motion.img
             src="https://res.cloudinary.com/m8xlnr2j/image/upload/v1783707281/download_mnn4ww.png"
             alt="Ezekiel Adegoju Portrait"
@@ -129,8 +131,8 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* 3. Main Foreground Grid Content */}
-      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-12 items-end justify-between h-full flex-grow z-20 pointer-events-none mt-auto">
+      {/* 3. Desktop Main Foreground Grid Content */}
+      <div className="hidden md:grid max-w-7xl mx-auto w-full grid-cols-12 items-end justify-between h-full flex-grow z-20 pointer-events-none mt-auto">
         
         {/* Left Column: Hello, name & info */}
         <div className="md:col-span-5 flex flex-col items-start pointer-events-auto text-left mb-6 md:mb-0">
@@ -253,6 +255,146 @@ export default function Hero() {
         </div>
 
       </div>
+
+      {/* =========================================================================
+          MOBILE-ONLY SINGLE-COLUMN STACK LAYOUT (< 768px / md:hidden)
+         ========================================================================= */}
+      <div className="flex md:hidden flex-col gap-6 w-full max-w-md mx-auto z-20 pt-2 pb-4 text-left">
+        
+        {/* 1. Status Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.03] w-fit"
+        >
+          <span className="w-2 h-2 rounded-full bg-accent animate-pulse shrink-0" />
+          <span className="font-mono text-[10px] tracking-widest text-white/80 uppercase">
+            AVAILABLE FOR FREELANCE
+          </span>
+        </motion.div>
+
+        {/* 2. Name & Title */}
+        <div className="flex flex-col gap-1">
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="font-hand text-2xl text-accent"
+          >
+            Hello, I'm
+          </motion.p>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="font-display text-5xl sm:text-6xl text-white tracking-wide uppercase leading-none font-bold"
+          >
+            EZEKIEL ADEGOJU
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="font-sans font-semibold tracking-[0.2em] text-accent text-xs uppercase mt-1"
+          >
+            Full-Stack Developer
+          </motion.p>
+        </div>
+
+        {/* 3. Short Description / Bio paragraph */}
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="font-sans text-white/70 text-xs sm:text-sm leading-relaxed"
+        >
+          Full-Stack Developer with experience designing, building, deploying, and maintaining production web applications. Skilled in React, Next.js, TypeScript, React Native, FastAPI, and SQL databases.
+        </motion.p>
+
+        {/* 4. Watermark Header */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="text-center font-display text-5xl sm:text-6xl font-bold text-accent tracking-tight uppercase my-1"
+        >
+          PORTFOLIO
+        </motion.div>
+
+        {/* 5. Tagline */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+          className="flex items-center justify-center gap-2 text-center bg-white/[0.02] border border-white/5 rounded-xl px-4 py-3"
+        >
+          <motion.svg
+            className="w-4 h-4 text-accent shrink-0"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            animate={{ rotate: 360 }}
+            transition={{ repeat: Infinity, duration: 12, ease: "linear" }}
+          >
+            <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4Z" />
+          </motion.svg>
+          <p className="font-sans text-xs text-white/80 font-medium">
+            Turning ideas into powerful digital experiences.
+          </p>
+        </motion.div>
+
+        {/* 6. Profile Photo */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.7 }}
+          className="relative w-full max-w-[280px] sm:max-w-[320px] mx-auto flex items-end justify-center pt-2"
+        >
+          <img
+            src="https://res.cloudinary.com/m8xlnr2j/image/upload/v1783707281/download_mnn4ww.png"
+            alt="Ezekiel Adegoju Portrait"
+            className="w-full h-auto max-h-[360px] object-contain object-bottom select-none"
+            style={{ referrerPolicy: "no-referrer" }}
+          />
+        </motion.div>
+
+        {/* 7. Metrics/Stats Grid strictly BELOW portrait photo */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="grid grid-cols-3 gap-2 sm:gap-3 w-full pt-2"
+        >
+          <div className="bg-[#0d0d0f] border border-white/10 rounded-xl p-3 flex flex-col items-center text-center justify-center">
+            <span className="font-display text-2xl sm:text-3xl text-accent font-bold">
+              {expCount}+
+            </span>
+            <span className="font-mono text-[8px] sm:text-[9px] tracking-wider text-white/60 uppercase leading-tight mt-1">
+              3+ YEARS EXPERIENCE
+            </span>
+          </div>
+          <div className="bg-[#0d0d0f] border border-white/10 rounded-xl p-3 flex flex-col items-center text-center justify-center">
+            <span className="font-display text-2xl sm:text-3xl text-accent font-bold">
+              {projectsCount}+
+            </span>
+            <span className="font-mono text-[8px] sm:text-[9px] tracking-wider text-white/60 uppercase leading-tight mt-1">
+              40+ PROJECTS COMPLETED
+            </span>
+          </div>
+          <div className="bg-[#0d0d0f] border border-white/10 rounded-xl p-3 flex flex-col items-center text-center justify-center">
+            <span className="font-display text-2xl sm:text-3xl text-accent font-bold">
+              {clientsCount}+
+            </span>
+            <span className="font-mono text-[8px] sm:text-[9px] tracking-wider text-white/60 uppercase leading-tight mt-1">
+              20+ HAPPY CLIENTS
+            </span>
+          </div>
+        </motion.div>
+
+      </div>
     </section>
   );
 }
+
